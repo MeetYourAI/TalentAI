@@ -722,3 +722,42 @@ $(function () {
     End Vendors plugins options Area 
      ******************************** */
 });
+
+/* *******  Share With Friends Button JS ********/
+
+function sharePage() {
+  const shareUrl = window.location.href; // Get the current page's URL
+  const shareText = "Check out this amazing content!"; // Customize the sharing message
+  const shareTitle = "Share with Friends"; // Customize the sharing dialog title
+
+  // Check if the Web Share API is supported by the browser
+  if (navigator.share) {
+      navigator.share({
+          title: shareTitle,
+          text: shareText,
+          url: shareUrl,
+      })
+      .then(() => {
+          console.log("Shared successfully");
+      })
+      .catch((error) => {
+          console.error("Error sharing:", error);
+      });
+  } else {
+      // Fallback for browsers that do not support Web Share API
+      alert("Share functionality is not supported in your browser. You can manually share the link.");
+  }
+}
+
+// Attach the sharePage function to the "Tell your friends" link
+const tellFriendsLink = document.querySelector('.sc-item[title="Tell your friends"] a');
+if (tellFriendsLink) {
+  tellFriendsLink.addEventListener('click', (e) => {
+      e.preventDefault(); // Prevent the link from navigating
+      sharePage(); // Call the sharing function
+  });
+}
+
+ /************************************
+    End Share With Friends Button JS 
+     ******************************** */
