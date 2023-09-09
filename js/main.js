@@ -761,3 +761,25 @@ if (tellFriendsLink) {
  /************************************
     End Share With Friends Button JS 
      ******************************** */
+
+
+/* *******  Ask Me anything JS ********/
+
+    function askQuestion() {
+      // Get the user's question from the input field
+      const question = document.getElementById("questionInput").value;
+  
+      // Perform AI processing here (you'll need to implement your AI logic)
+  
+      // Display the AI response in the responseContainer
+      const responseContainer = document.getElementById("responseContainer");
+      responseContainer.innerHTML = `<p>You asked: ${question}</p><p>AI Response: Here's the answer from AI.</p>`;
+  
+      // Clear the input field
+      document.getElementById("questionInput").value = "";
+  }
+
+
+   /************************************
+    End Ask me anything JS
+     ******************************** */

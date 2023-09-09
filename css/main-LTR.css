@@ -4730,3 +4730,40 @@ body.dark-theme .about .stats-counter.stats-cards .stat-box {
 }
 
 /*    End dark theme rules  *//*# sourceMappingURL=main-LTR.css.map */
+
+.askmeanything{
+    color: var(--clr-main);
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+
+/* Style the input field */
+.input-container input[type="text"] {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #004e92; /* Use your theme color */
+  border-radius: 5px;
+  font-size: 16px;
+  outline: none;
+}
+
+/* Style the Ask button */
+.input-container button {
+  background-color: #004e92; /* Use your theme color */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  margin-left: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Change button hover color */
+.input-container button:hover {
+  background-color: #003d77; /* Use a slightly darker shade for hover effect */
+}
