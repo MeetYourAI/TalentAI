@@ -807,7 +807,7 @@ if (tellFriendsLink) {
   
               // Display the success message
               doneMsg.textContent = "Message sent successfully!";
-          }, 1000); // Adjust the delay time as needed
+          }, 3000); // Adjust the delay time as needed
       });
   });
   
