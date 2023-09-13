@@ -783,3 +783,34 @@ if (tellFriendsLink) {
    /************************************
     End Ask me anything JS
      ******************************** */
+
+    /* *******  Contact Form JS ********/
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const form = document.getElementById("contact-us-form");
+      const submitButton = document.getElementById("submit-btn");
+      const doneMsg = document.querySelector(".done-msg");
+  
+      form.addEventListener("submit", function (e) {
+          e.preventDefault();
+  
+          // Add the rotation animation to the submit button
+          submitButton.classList.add("rotate");
+  
+          // Simulate a delay (you can replace this with actual form submission)
+          setTimeout(function () {
+              // Remove the rotation animation
+              submitButton.classList.remove("rotate");
+  
+              // Clear the form
+              form.reset();
+  
+              // Display the success message
+              doneMsg.textContent = "Message sent successfully!";
+          }, 1000); // Adjust the delay time as needed
+      });
+  });
+  
+    /************************************
+    End Conatct Form JS
+     ******************************** */

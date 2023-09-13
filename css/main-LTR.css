@@ -4767,3 +4767,17 @@ body.dark-theme .about .stats-counter.stats-cards .stat-box {
 .input-container button:hover {
   background-color: #003d77; /* Use a slightly darker shade for hover effect */
 }
+
+/* Create the rotation animation */
+@keyframes rotate {
+  from {
+      transform: rotate(0deg);
+  }
+  to {
+      transform: rotate(360deg);
+  }
+}
+
+.rotate {
+  animation: rotate 1s linear infinite;
+}
