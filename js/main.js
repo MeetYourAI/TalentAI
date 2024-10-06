@@ -914,8 +914,8 @@ async function processUserInput() {
     }
 
     responseContainer.innerHTML = `
-      <p>You said: ${userInput}</p>
-      <p>AI Response: ${response}</p>
+      <p>You asked for: ${userInput}</p>
+      <p>AI Response is: ${response}</p>
     `;
   } catch (error) {
     console.error("Error:", error);
