@@ -732,20 +732,20 @@ function sharePage() {
 
   // Check if the Web Share API is supported by the browser
   if (navigator.share) {
-      navigator.share({
-          title: shareTitle,
-          text: shareText,
-          url: shareUrl,
-      })
+    navigator.share({
+      title: shareTitle,
+      text: shareText,
+      url: shareUrl,
+    })
       .then(() => {
-          console.log("Shared successfully");
+        console.log("Shared successfully");
       })
       .catch((error) => {
-          console.error("Error sharing:", error);
+        console.error("Error sharing:", error);
       });
   } else {
-      // Fallback for browsers that do not support Web Share API
-      alert("Share functionality is not supported in your browser. You can manually share the link.");
+    // Fallback for browsers that do not support Web Share API
+    alert("Share functionality is not supported in your browser. You can manually share the link.");
   }
 }
 
@@ -753,33 +753,181 @@ function sharePage() {
 const tellFriendsLink = document.querySelector('.sc-item[title="Tell your friends"] a');
 if (tellFriendsLink) {
   tellFriendsLink.addEventListener('click', (e) => {
-      e.preventDefault(); // Prevent the link from navigating
-      sharePage(); // Call the sharing function
+    e.preventDefault(); // Prevent the link from navigating
+    sharePage(); // Call the sharing function
   });
 }
 
- /************************************
-    End Share With Friends Button JS 
-     ******************************** */
+/************************************
+   End Share With Friends Button JS 
+    ******************************** */
 
 
 /* *******  Ask Me anything JS ********/
+// async function askQuestion() {
+//   // Get the user's question from the input field
+//   const question = document.getElementById("questionInput").value;
 
-    function askQuestion() {
-      // Get the user's question from the input field
-      const question = document.getElementById("questionInput").value;
-  
-      // Perform AI processing here (you'll need to implement your AI logic)
-  
-      // Display the AI response in the responseContainer
-      const responseContainer = document.getElementById("responseContainer");
-      responseContainer.innerHTML = `<p>You asked: ${question}</p><p>AI Response: Here's the answer from AI.</p>`;
-  
-      // Clear the input field
-      document.getElementById("questionInput").value = "";
+//   // Get the response container
+//   const responseContainer = document.getElementById("responseContainer");
+
+//   // Show loading message
+//   responseContainer.innerHTML = "<p>Loading response...</p>";
+
+//   // API details
+//   const apiUrl = "https://api-inference.huggingface.co/models/google/gemma-2-2b-it";
+
+//   const myHeaders = new Headers();
+//   myHeaders.append("Content-Type", "application/json");
+//   myHeaders.append("Authorization", "Bearer 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");
+
+//   const raw = JSON.stringify({
+//     "inputs": "Can you please let us know more details about " + question
+//   });
+
+//   const requestOptions = {
+//     method: "POST",
+//     headers: myHeaders,
+//     body: raw,
+//     redirect: "follow"
+//   };
+
+//   try {
+//     const response = await fetch(apiUrl, requestOptions);
+//     console.log(response)
+//     if (!response.ok) {
+//       throw new Error(`HTTP error! status: ${response.status}`);
+//     }
+
+//     const result = await response.json();
+
+//     // Display the AI response
+//     if (result && result.length > 0 && result[0].generated_text) {
+//       responseContainer.innerHTML = `
+//         <p>You asked: ${question}</p>
+//         <p>AI Response: ${result[0].generated_text}</p>
+//       `;
+//     } else {
+//       responseContainer.innerHTML = "<p>Unexpected response format from the API.</p>";
+//     }
+//   } catch (error) {
+//     console.error("Error:", error);
+//     responseContainer.innerHTML = `<p>Error: ${error.message}</p>`;
+//   }
+
+//   // Clear the input field
+//   document.getElementById("questionInput").value = "";
+// }
+async function askQuestionHuggingFace(question) {
+  const apiUrl = "https://api-inference.huggingface.co/models/google/gemma-2-2b-it";
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("Authorization", "Bearer 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");
+  const raw = JSON.stringify({
+    "inputs": question
+  });
+  const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow"
+  };
+  const response = await fetch(apiUrl, requestOptions);
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  const result = await response.json();
+  return result[0].generated_text;
+}
+
+async function askQuestionChatGPT(question) {
+  const apiUrl = "https://chatgpt-42.p.rapidapi.com/conversationgpt4-2";
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("x-rapidapi-host", "chatgpt-42.p.rapidapi.com");
+  myHeaders.append("x-rapidapi-key", "41fe1a0e90mshaefef9b03b47fafp12947ajsn1b2d644a0f36");
+  const raw = JSON.stringify({
+    "messages": [
+      {
+        "role": "user",
+        "content": question
+      }
+    ],
+    "system_prompt": "",
+    "temperature": 0.9,
+    "top_k": 5,
+    "top_p": 0.9,
+    "max_tokens": 256,
+    "web_access": false
+  });
+  const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow"
+  };
+  const response = await fetch(apiUrl, requestOptions);
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  const result = await response.json();
+  return result.result;
+}
+
+async function generateImage(prompt) {
+  const apiUrl = "https://open-ai21.p.rapidapi.com/texttoimage2";
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("x-rapidapi-host", "open-ai21.p.rapidapi.com");
+  myHeaders.append("x-rapidapi-key", "41fe1a0e90mshaefef9b03b47fafp12947ajsn1b2d644a0f36");
+  const raw = JSON.stringify({
+    "text": prompt
+  });
+  const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow"
+  };
+  const response = await fetch(apiUrl, requestOptions);
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  const result = await response.json();
+  return result.generated_image; // Assuming the API returns the image URL in this field
+}
+
+async function processUserInput() {
+  const userInput = document.getElementById("questionInput").value;
+  const responseContainer = document.getElementById("responseContainer");
+  responseContainer.innerHTML = "<p>Processing your request...</p>";
+
+  try {
+    let response;
+    if (userInput.toLowerCase().startsWith("generate image:")) {
+      const imagePrompt = userInput.slice(15).trim();
+      const imageUrl = await generateImage(imagePrompt);
+      response = `<img src="${imageUrl}" alt="Generated Image" style="max-width: 100%;">`;
+    } else {
+      const useHuggingFace = false; // Set to true to use Hugging Face API, false for ChatGPT API
+      response = useHuggingFace ? await askQuestionHuggingFace(userInput) : await askQuestionChatGPT(userInput);
+    }
+
+    responseContainer.innerHTML = `
+      <p>You said: ${userInput}</p>
+      <p>AI Response: ${response}</p>
+    `;
+  } catch (error) {
+    console.error("Error:", error);
+    responseContainer.innerHTML = `<p>Error: ${error.message}</p>`;
   }
 
+  document.getElementById("questionInput").value = "";
+}
 
-   /************************************
-    End Ask me anything JS
-     ******************************** */
+// Attach the processUserInput function to the button click event
+document.getElementById("askButton").onclick = processUserInput;
+
+/************************************
+ End Ask me anything JS
+  ******************************** */
