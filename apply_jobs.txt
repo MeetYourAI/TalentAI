@@ -1,0 +1,48 @@
+import requests
+from bs4 import BeautifulSoup
+
+# Define your application details
+job_app_details = {
+    'name': 'Your Name',
+    'email': 'your.email@example.com',
+    'resume': 'path/to/resume.pdf',  # Change this to your actual resume path
+    'cover_letter': 'Your cover letter content here',
+}
+
+# List of job URLs to apply for
+job_urls = [
+    'https://example.com/job1',  # Replace with actual job URLs
+    'https://example.com/job2',
+    # Add more job URLs here
+]
+
+def apply_to_job(job_url):
+    # Fetch the job page
+    response = requests.get(job_url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+
+    # Extract the application form URL (modify as needed)
+    application_url = soup.find('a', {'class': 'apply-button'})['href']
+
+    # Prepare the application data
+    application_data = {
+        'name': job_app_details['name'],
+        'email': job_app_details['email'],
+        'cover_letter': job_app_details['cover_letter'],
+    }
+
+    # Submit the application
+    with requests.Session() as session:
+        # If the application requires the resume file
+        with open(job_app_details['resume'], 'rb') as resume_file:
+            files = {'resume': resume_file}
+            response = session.post(application_url, data=application_data, files=files)
+
+            if response.status_code == 200:
+                print(f'Successfully applied for job at {job_url}')
+            else:
+                print(f'Failed to apply for job at {job_url}: {response.status_code}')
+
+# Iterate over job URLs and apply
+for job_url in job_urls:
+    apply_to_job(job_url)
