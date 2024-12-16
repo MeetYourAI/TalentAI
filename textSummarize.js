@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const summaryOutput = document.getElementById("summaryOutput");
     const summaryText = document.getElementById("summaryText");
 
-    // Character counter and validation
     textInput.addEventListener("input", () => {
         const charCount = textInput.value.length;
         if (charCount < 500) {
@@ -16,17 +15,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Summarize button click event
     summarizeButton.addEventListener("click", async () => {
         const text = textInput.value;
 
-        // Ensure the text meets the minimum character requirement
         if (text.length < 500) {
             alert("Please enter at least 500 characters to generate a summary.");
             return;
         }
 
-        // Update button state to indicate processing
         summarizeButton.textContent = "Summarizing...";
         summarizeButton.disabled = true;
 
@@ -35,12 +31,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${HUGGINGFACE_TOKEN}`,
+                    Authorization: `Bearer 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`,
                 },
                 
                 body: JSON.stringify({
                     inputs: text,
-                    parameters: { max_length: 150, min_length: 50, do_sample: false },
+                    parameters: { max_length: 250, min_length: 50, do_sample: false },
                 }),
             });
 
@@ -51,8 +47,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             const data = await response.json();
-
-            // Display the summary result
             summaryText.textContent = data[0]?.summary_text || "No summary was generated. Please try again with a different text.";
             summaryOutput.style.display = "block";
         } catch (error) {
